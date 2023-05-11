@@ -21,13 +21,13 @@ app.listen(port, function () {
     console.log("Server is runnin' on port 3000")
 });
 
-// //Root route...get it?
-// app.get("/", (req, res) => {
-//     res.send("Welcome to the Pokemon App!")
-// })
+//Root route...get it?
+app.get("/", (req, res) => {
+    res.send("Welcome to the Pokemon App!")
+})
 
 //This is the landing page I want them to go to 
-app.get("/", (req, res) => {
+app.get("/pokemon/", (req, res) => {
     res.render("index.ejs", {
         pokemon: pokemon
     })
