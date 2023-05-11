@@ -23,7 +23,7 @@ app.listen(port, function () {
 
 //Root route...get it?
 app.get("/", (req, res) => {
-    res.send("Welcome to the Pokemon App!")
+    res.send("Welcome to the Pokemon App! <br> Type in /pokemon (http://localhost:3000/pokemon) in your browser to see all the pokemon")
 })
 
 //This is the landing page I want them to go to 
