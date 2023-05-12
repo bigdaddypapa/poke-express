@@ -1,31 +1,43 @@
-const pokemon = [{
-        name: "Bulbasaur",
-        img: "http://img.pokemondb.net/artwork/bulbasaur.jpg"
-    },
-    {
-        name: "Ivysaur",
-        img: "http://img.pokemondb.net/artwork/ivysaur.jpg"
-    },
-    {
-        name: "Venusaur",
-        img: "http://img.pokemondb.net/artwork/venusaur.jpg"
-    },
-    {
-        name: "Charmander",
-        img: "http://img.pokemondb.net/artwork/charmander.jpg"
-    },
-    {
-        name: "Charizard",
-        img: "http://img.pokemondb.net/artwork/charizard.jpg"
-    },
-    {
-        name: "Squirtle",
-        img: "http://img.pokemondb.net/artwork/squirtle.jpg"
-    },
-    {
-        name: "Wartortle",
-        img: "http://img.pokemondb.net/artwork/wartortle.jpg"
-    }
-			  ];
+// const pokemon = [{
+//         name: "Bulbasaur",
+//         img: "http://img.pokemondb.net/artwork/bulbasaur.jpg"
+//     },
+//     {
+//         name: "Ivysaur",
+//         img: "http://img.pokemondb.net/artwork/ivysaur.jpg"
+//     },
+//     {
+//         name: "Venusaur",
+//         img: "http://img.pokemondb.net/artwork/venusaur.jpg"
+//     },
+//     {
+//         name: "Charmander",
+//         img: "http://img.pokemondb.net/artwork/charmander.jpg"
+//     },
+//     {
+//         name: "Charizard",
+//         img: "http://img.pokemondb.net/artwork/charizard.jpg"
+//     },
+//     {
+//         name: "Squirtle",
+//         img: "http://img.pokemondb.net/artwork/squirtle.jpg"
+//     },
+//     {
+//         name: "Wartortle",
+//         img: "http://img.pokemondb.net/artwork/wartortle.jpg"
+//     }
+// 			  ];
 
-module.exports = pokemon;
+// module.exports = pokemon;
+
+const mongoose = require('mongoose');
+
+const pokemonSchema = new mongoose.Schema({
+    name:  { type: String, required: true },
+    image:  { type: String, required: true },
+    
+})
+
+const Pokemon= mongoose.model('Pokemon', pokemonSchema)
+
+module.exports = Pokemon

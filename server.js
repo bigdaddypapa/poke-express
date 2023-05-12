@@ -1,44 +1,93 @@
-const express = require("express");
-const app = express();
-const port = 3000;
-const pokemon = require("./models/pokemon.js")
-const bodyParser = require("body-parser")
 
-//Middleware
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-
+// Load express...
+const express = require('express')
+// Instantiate express...
+const app = express()
+// Other variables...
+const port = 3000
+// Add dotenv
+require('dotenv').config()
+// Mongoose info
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+mongoose.connection.once('open', ()=> {
+    console.log('connected to mongo')
+})
+// Middleware...
 app.use((req, res, next) => {
+    console.log('I run for all routes')
     next()
 })
+app.use(express.urlencoded({extended:false}))
+app.set('view engine', 'jsx')
+app.engine('jsx', require('jsx-view-engine').createEngine())
 
-//serves up static files, CSS, client javascript, all that jazz.
-app.use(express.static("public"));
+// Data...
 
-// Server is running at this port
-app.listen(port, function () {
-    console.log("Server is runnin' on port 3000")
-});
+const Pokemon = require('./models/pokemon.js');
 
-//Root route...get it?
+
+
+// Routes...
+// Index : Show all the things!
 app.get("/", (req, res) => {
-    res.send("Welcome to the Pokemon App! <br> Type in /pokemon (http://localhost:3000/pokemon) in your browser to see all the pokemon")
+    res.send("Welcome to the Pokemon App! Type  in /pokemon in the browser to show and create pokemon")
 })
 
-//This is the landing page I want them to go to 
-app.get("/pokemon/", (req, res) => {
-    res.render("index.ejs", {
-        pokemon: pokemon
+app.get('/pokemon', (req, res)=>{
+    Pokemon.find({}, (error, allPokemon)=>{
+        res.render('../views/index', {
+            pokemon: allPokemon
+        })
     })
-//    console.log(pokemon)
 })
 
-//pulls data from array and places it on the webpage
-app.get("/pokemon/:id", (req, res) => {
-    res.render("shows.ejs", {
-        pokemon: pokemon[req.params.id]
-    })
+
+// New : An empty form for a new thing  
+
+app.get('/pokemon/new', (req, res) => {
+    res.render('../views/New')
+})
+
+
+// Delete/Destroy : Get rid of this particular thing!  
+
+
+// Update : Update this specific thing with this updated form 
+
+
+// Create : Make a new thing with this filled out form 
+
+app.post('/pokemon', (req, res)=>{
    
-//    console.log(pokemon[req.params.id])
+    // fruits.push(req.body) 
+    Pokemon.create(req.body, (error, createdPokemon)=>{
+        res.send(createdPokemon)
+    });
+    
+    res.redirect('/'); 
+})
+
+
+// Edit : A prefilled form to update a specific thing 
+
+
+// Show : Show me this one thing by ID
+
+app.get('/pokemon/:id', (req, res)=>{
+    Pokemon.findById(req.params.id, (err, foundPokemon)=>{
+        res.render('../views/shows', {
+            pokemon:foundPokemon
+        })
+    })
+})
+
+
+
+// Listen...
+app.listen(port, () => {
+    console.log(`Jigglypuuuuf, Jigglyyyyypuuuuuuuf on ${port}`)
 })
